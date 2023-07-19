@@ -11,6 +11,8 @@ class Tag(models.Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.title
 
 class Category(models.Model):
     title = CharField(max_length=30)
@@ -32,6 +34,7 @@ class Recipe(models.Model):
     long_description = TextField()
     tag = ManyToManyField(Tag)
     author = ForeignKey(USER, on_delete=models.CASCADE)
+    category = ForeignKey(Category, on_delete=models.CASCADE)
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
@@ -43,6 +46,7 @@ class Story(models.Model):
     long_description = TextField()
     tag = ManyToManyField(Tag)
     author = ForeignKey(USER, on_delete=models.CASCADE)
+    category = ForeignKey(Category, related_name="stories", on_delete=models.CASCADE)
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
