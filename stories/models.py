@@ -26,6 +26,9 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
         ordering = ["-created_at"]
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Recipe(models.Model):
     title = CharField(max_length=50)
@@ -39,6 +42,9 @@ class Recipe(models.Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Story(models.Model):
     title = CharField(max_length=50)
@@ -50,3 +56,6 @@ class Story(models.Model):
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.title
