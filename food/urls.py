@@ -16,11 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core.views import home
+from stories.views import recipes, get_recipe
 from food import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('jet/', include('jet.urls', 'jet')),
     path('admin/', admin.site.urls),
-    path("home/", home)
+    path("home/", home),
+    path("recipes/", recipes),
+    path("recipe/<str:id>/", get_recipe)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

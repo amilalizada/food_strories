@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filter %}
 
 {% block css %}
    
@@ -48,7 +49,8 @@
         </div>
     </section>
 
-
+    {{text|trunc:2}}
+    {{text}}
     <section class="ftco-section">
         <div class="container">
             <div class="row">
