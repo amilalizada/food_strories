@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, RegisterForm
+from stories.models import Recipe
 # Create your views here.
 
 def register(request):
@@ -30,7 +31,7 @@ def login(request):
             user = authenticate(email=form.cleaned_data["email"], password=form.cleaned_data["password"])
             if user:
                 django_login(request, user)
-                return redirect("/")
+                return redirect(reverse_lazy("account:profile"))
     else: form = LoginForm()
 
     context = {
@@ -42,7 +43,7 @@ def login(request):
 
 @login_required
 def profile(request):
-
+    
     return render(request, "user-profile.html")
 
 @login_required

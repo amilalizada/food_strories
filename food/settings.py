@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "core",
     "stories",
-    "account"
+    "account",
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -87,6 +88,17 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '226777509926-0qgk7qql3ccuvr2v20bb0c3hko3l16n1.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+SOCIAL_AUTH_FACEBOOK_KEY =   "1082511463120139"   
+SOCIAL_AUTH_FACEBOOK_SECRET = "f7fca293960b552f20467d8ac11ed1b0"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
