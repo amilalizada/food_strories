@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.http import HttpResponse
+from django.views.generic import CreateView
+from django.contrib import messages
 from core.forms import ContactForm
+from .models import Contact
 # Create your views here.
 
 
@@ -26,3 +30,15 @@ def contact(request):
         "form": form
     }
     return render(request, "contact.html", context=context)
+
+
+class ContactCreateView(CreateView):
+    form_class = ContactForm
+    template_name = "contact.html"
+    
+    success_url = reverse_lazy("core:contact")
+
+    def get_success_url(self) -> str:
+        messages.success(self.request, "Contact is sent")
+
+        return super().get_success_url()

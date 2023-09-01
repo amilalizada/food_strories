@@ -33,9 +33,13 @@ class ContactForm(forms.ModelForm):
                 "rows": 5
             })
         }
+
     def clean_message(self):
-        if not " " in self.cleaned_data.get("message"):
-            ValueError("lfkncdslkcns")
+        if " " not in self.cleaned_data.get("message"):
+            self.add_error("message", "Message is null")
+        
+        return self.cleaned_data.get("message")
+
 
         
 
