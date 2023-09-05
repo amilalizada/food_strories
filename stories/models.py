@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 from django.db.models.fields import CharField, DateTimeField, TextField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
@@ -44,6 +45,10 @@ class Recipe(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    
+    def get_absolute_url(self):
+        return reverse_lazy("stories:get_recipe", kwargs={"pk": self.pk})
 
 
 class Story(models.Model):

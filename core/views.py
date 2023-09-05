@@ -35,7 +35,6 @@ def contact(request):
 class ContactCreateView(CreateView):
     form_class = ContactForm
     template_name = "contact.html"
-    
     success_url = reverse_lazy("core:contact")
 
     def get_success_url(self) -> str:

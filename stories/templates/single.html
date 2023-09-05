@@ -224,7 +224,7 @@
                     <ul class="categories">
                         <h3 class="heading mb-4">Categories</h3>
                         {% for cat in categories %}
-                        <li><a href="#">{{cat.title}} <span>(12)</span></a></li>
+                        <li><a href="{% url 'stories:recipes' %}?cat={{cat.id}}">{{cat.title}}<span>(12)</span></a></li>
                         
                         {% endfor %}
                     </ul>
