@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 
 class User(AbstractUser):
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["username",]
+    REQUIRED_FIELDS = ['username',]
 
     email = models.EmailField(_('email address'), unique=True)
     bio = models.TextField(max_length=500, blank=True)

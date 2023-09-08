@@ -1,9 +1,13 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.forms.fields import EmailField
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db.models import fields
 from django.forms import widgets
-from .models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class RegisterForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -63,13 +67,19 @@ class RegisterForm(forms.ModelForm):
         return super().clean()
 
 
-class LoginForm(forms.Form):
-
-    email = forms.CharField(widget=forms.EmailInput(attrs={
-        "class": "form-control",
-        "placeholder": "email"
+class LoginForm(AuthenticationForm):
+    username = EmailField(widget=forms.TextInput(attrs={
+        'name': 'email',
+        'class': 'form-control',
+        'placeholder': 'email',
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        "class": "form-control",
-        "placeholder": "Password"
+        'class': 'form-control',
+        'placeholder': 'Password',
     }))
+
+    # def __init__(self, *args, **kwargs): 
+    #     super(LoginForm, self).__init__(*args, **kwargs) 
+    #     self.fields['email'].required = True 
+    #     # remove username
+    #     self.fields.pop('username')

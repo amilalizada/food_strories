@@ -2,9 +2,16 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login as django_login, logout as django_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from .forms import LoginForm, RegisterForm
 from stories.models import Recipe
 # Create your views here.
+
+class CustomLoginView(LoginView):
+    template_name = "login.html" 
+    form_class = LoginForm
+    
+
 
 def register(request):
     if request.method == "POST":
