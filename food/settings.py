@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'food.middleware.middleware.CustomMiddleware',
 ]
 
 ROOT_URLCONF = 'food.urls'
@@ -167,3 +168,10 @@ AUTH_USER_MODEL = 'account.User'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = "food.backend.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True  
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'amilalizada@gmail.com'
+EMAIL_HOST_PASSWORD = 'ljcwdwsczctutvzj'

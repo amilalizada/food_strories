@@ -34,6 +34,7 @@ class Category(models.Model):
 class Recipe(models.Model):
     title = CharField(max_length=50)
     image = ImageField(upload_to='media/recipies/')
+    slug = models.SlugField(max_length=100, null=True)
     short_description = CharField(max_length=200)
     long_description = TextField()
     tag = ManyToManyField(Tag)

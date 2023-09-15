@@ -16,7 +16,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     search_fields = ["title", "short_description"]
-    list_display = ["title", "get_photo", "short_description", "author"]
+    list_display = ["title", "get_photo", "slug", "short_description", "author"]
     list_filter = ["category", "tag", "author"]
     fieldsets = (
         (

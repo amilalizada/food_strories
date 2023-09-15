@@ -5,15 +5,26 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.db.models import fields
 from django.forms import widgets
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class RegisterForm(forms.ModelForm):
-    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
-        "class": "form-control",
-        "placeholder": "Confirm Password"
-    }))
+class RegisterForm(UserCreationForm):
+    password1 = forms.CharField(
+        label=("Password"),
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control",
+        "placeholder": "Password"}
+        ),
+        strip=False,
+    )
+    password2 = forms.CharField(
+        label=("Password (again)"),
+        widget=forms.PasswordInput(attrs={"class": "form-control",
+        "placeholder": "Confirm Password"}),
+        strip=False,
+    )
     class Meta:
 
         model = User
@@ -25,8 +36,6 @@ class RegisterForm(forms.ModelForm):
             "username",
             "bio",
             "image",
-            "password",
-            "confirm_password",
         )
 
         widgets = {
@@ -53,18 +62,14 @@ class RegisterForm(forms.ModelForm):
             "image": forms.FileInput(attrs={
                 "class": "form-control"
             }),
-            "password": forms.PasswordInput(attrs={
-                "class": "form-control",
-                "placeholder": "Password"
-            })
         }
     
-    def clean(self):
-        data = self.cleaned_data
-        if data["password"] != data["confirm_password"]:
-            self.add_error("confirm_password", "Password does not match")
+    # def clean(self):
+    #     data = self.cleaned_data
+    #     if data["password"] != data["confirm_password"]:
+    #         self.add_error("confirm_password", "Password does not match")
 
-        return super().clean()
+    #     return super().clean()
 
 
 class LoginForm(AuthenticationForm):
