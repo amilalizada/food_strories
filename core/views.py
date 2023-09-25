@@ -5,6 +5,7 @@ from django.views.generic import CreateView
 from django.contrib import messages
 from core.forms import ContactForm
 from .models import Contact
+from django.utils.translation import gettext_lazy as _
 # Create your views here.
 
 
@@ -38,6 +39,6 @@ class ContactCreateView(CreateView):
     success_url = reverse_lazy("core:contact")
 
     def get_success_url(self) -> str:
-        messages.success(self.request, "Contact is sent")
+        messages.add_message(self.request, messages.SUCCESS, _("Contact created successfully"))
 
         return super().get_success_url()

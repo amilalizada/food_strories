@@ -1,3 +1,4 @@
+{% load i18n %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href="{% url 'core:home' %}">Stories<span>.</span></a>
@@ -7,8 +8,8 @@
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item active"><a href="index.html" class="nav-link">{% trans 'Home' %}</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">{% trans 'About' %}</a></li>
                 <li class="nav-item"><a href="strories.html" class="nav-link">Stories</a></li>
                 <li class="nav-item"><a href="{% url 'stories:recipes' %}" class="nav-link">Recipes</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
