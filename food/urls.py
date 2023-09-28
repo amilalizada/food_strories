@@ -29,6 +29,7 @@ urlpatterns = [
     # path('stories/', include('stories.urls', namespace='stories')),
     path('account/', include('account.urls', namespace='account')),
     path('', include('social_django.urls', namespace='social')),
+    path('api/', include('stories.api.urls', namespace='api')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(

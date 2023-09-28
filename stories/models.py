@@ -39,7 +39,7 @@ class Recipe(models.Model):
     long_description = TextField()
     tag = ManyToManyField(Tag)
     author = ForeignKey(USER, on_delete=models.CASCADE)
-    category = ForeignKey(Category, on_delete=models.CASCADE)
+    category = ForeignKey(Category,related_name="recipes", on_delete=models.CASCADE)
 
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
