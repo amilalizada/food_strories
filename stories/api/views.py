@@ -1,8 +1,36 @@
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from ..models import Recipe, Category
-from .serializers import RecipeReadSerializer, CategorySerializer, RecipeCreateSerializer
+from .serializers import RecipeReadSerializer, CategorySerializer, RecipeCreateSerializer, CategoryCreateSerilizer
 
 from django.http import JsonResponse
+
+
+class GenericViewSerializerClassesMixin:
+    
+    def get_serializer_class(self):
+        return self.serializers_classes[self.request.method]
+
+
+class RecipeListApiView(GenericViewSerializerClassesMixin, ListCreateAPIView):
+    queryset = Recipe.objects.all()
+    serializers_classes = {
+        "GET": RecipeReadSerializer,
+        "POST": RecipeCreateSerializer,
+    }
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["category__title", "title"]
+
+
+class RecipeDetailApiView(GenericViewSerializerClassesMixin, RetrieveUpdateDestroyAPIView):
+    queryset = Recipe.objects.all()
+    serializers_classes = {
+        "GET": RecipeReadSerializer,
+        "PUT": RecipeCreateSerializer,
+        "PATCH": RecipeCreateSerializer,
+    }
+
 
 class RecipeApiView(APIView):
 
@@ -21,33 +49,12 @@ class RecipeApiView(APIView):
 
         return JsonResponse(serializer.data, safe=False)
 
-        # for recipe in recipes:
-        #     recipes_dict_data.append({
-        #         "title": recipe.title,
-        #         "image": recipe.image.url,
-        #         "short_description": recipe.short_description,
-        #         "long_description": recipe.long_description,
-        #         "author": {
-        #             "name": recipe.author.username,
-        #             "id": recipe.author.id
-        #         },
-        #         "category": {
-        #             "id": recipe.category.id,
-        #             "title": recipe.category.title
-        #         }
-        #     })
 
-        # return JsonResponse(recipes_dict_data, safe=False)
-
-
-class CategoryApiView(APIView):
-    def get(self, *args, **kwargs):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, context={"request": self.request}, many=True)
-
-        return JsonResponse({
-            "categories": serializer.data,
-            "status": 200
-        })
+class CategoryApiView(GenericViewSerializerClassesMixin, ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializers_classes = {
+        "GET": CategorySerializer,
+        "POST": CategoryCreateSerilizer,
+    }
 
 

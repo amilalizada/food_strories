@@ -19,6 +19,25 @@ class CategorySerializer(serializers.ModelSerializer):
         return serializer.data
     
 
+class CategoryCreateSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = (
+            "title",
+            "image",
+        )
+    
+
+class CategoryRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = (
+            "id",
+            "title",
+            "image",
+        )
+    
+
 class RecipeCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
@@ -32,10 +51,11 @@ class RecipeCategorySerializer(serializers.ModelSerializer):
 
 
 class RecipeReadSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
+    category = CategoryRecipeSerializer()
     class Meta:
         model = Recipe
         fields = (
+            "id",
             "title",
             "image",
             "short_description",
@@ -58,6 +78,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = (
+            "id",
             "title",
             "image",
             "short_description",
