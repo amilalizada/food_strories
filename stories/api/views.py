@@ -3,6 +3,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from ..models import Recipe, Category
 from .serializers import RecipeReadSerializer, CategorySerializer, RecipeCreateSerializer, CategoryCreateSerilizer
+from rest_framework.permissions import IsAuthenticated
+
 
 from django.http import JsonResponse
 
@@ -15,6 +17,7 @@ class GenericViewSerializerClassesMixin:
 
 class RecipeListApiView(GenericViewSerializerClassesMixin, ListCreateAPIView):
     queryset = Recipe.objects.all()
+    permission_classes = [IsAuthenticated]
     serializers_classes = {
         "GET": RecipeReadSerializer,
         "POST": RecipeCreateSerializer,

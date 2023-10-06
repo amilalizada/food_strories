@@ -75,10 +75,10 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Recipe
         fields = (
-            "id",
             "title",
             "image",
             "short_description",
@@ -87,3 +87,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             "category",
             "tag",
         )
+
+    def validate(self, attrs):
+        if len(attrs) != len(self.context["request"].data):
+            raise serializers.ValidationError("You must provide all fields")
+        attrs["author_id"] = self.context["request"].user.id
+
+        return attrs
