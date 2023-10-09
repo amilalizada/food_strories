@@ -94,3 +94,13 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         attrs["author_id"] = self.context["request"].user.id
 
         return attrs
+    
+
+class CustomTokenSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+    access = serializers.CharField()
+    class Meta:
+        fields = (
+            "refresh",
+            "access",
+        )

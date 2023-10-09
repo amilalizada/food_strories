@@ -1,9 +1,19 @@
+from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from ..models import Recipe, Category
-from .serializers import RecipeReadSerializer, CategorySerializer, RecipeCreateSerializer, CategoryCreateSerilizer
+from .serializers import (
+    RecipeReadSerializer, 
+    CategorySerializer, 
+    RecipeCreateSerializer, 
+    CategoryCreateSerilizer,
+    CustomTokenSerializer,
+)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.views import TokenObtainPairView
+from drf_yasg.utils import swagger_auto_schema
 
 
 from django.http import JsonResponse
@@ -27,6 +37,9 @@ class RecipeListApiView(GenericViewSerializerClassesMixin, ListCreateAPIView):
 
 
 class RecipeDetailApiView(GenericViewSerializerClassesMixin, RetrieveUpdateDestroyAPIView):
+    '''
+    RetrieveUpdateDestroyAPIView - GET, PUT, PATCH, DELETE
+    '''
     queryset = Recipe.objects.all()
     serializers_classes = {
         "GET": RecipeReadSerializer,
@@ -59,5 +72,13 @@ class CategoryApiView(GenericViewSerializerClassesMixin, ListCreateAPIView):
         "GET": CategorySerializer,
         "POST": CategoryCreateSerilizer,
     }
+
+
+class CustomTokenObtainView(TokenObtainPairView):
+
+    @swagger_auto_schema(responses={200: CustomTokenSerializer(many=True)})
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
 
 
