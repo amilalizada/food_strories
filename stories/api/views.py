@@ -35,6 +35,13 @@ class RecipeListApiView(GenericViewSerializerClassesMixin, ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["category__title", "title"]
 
+    # def post(self, request, *args, **kwargs):
+    #     print(request.data["image"])
+    #     print(request.data)
+
+    #     # request.data["image"] = request.data["image"].split("/")[-1]
+    #     return super().post(request, *args, **kwargs)
+
 
 class RecipeDetailApiView(GenericViewSerializerClassesMixin, RetrieveUpdateDestroyAPIView):
     '''

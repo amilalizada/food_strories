@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from ..models import Recipe, Category
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -76,24 +78,32 @@ class TagSerializer(serializers.ModelSerializer):
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Recipe
         fields = (
-            "title",
-            "image",
-            "short_description",
-            "long_description",
-            "author",
-            "category",
-            "tag",
+            'id',
+            'title',
+            'long_description',
+            'short_description',
+            'image',
+            'author',
+            'category',
+            'created_at',
+            'updated_at',
         )
+    
+    def validate(self, data):
+        request = self.context['request']
+        data['author'] = request.user
+        return super().validate(data)
 
-    def validate(self, attrs):
-        if len(attrs) != len(self.context["request"].data):
-            raise serializers.ValidationError("You must provide all fields")
-        attrs["author_id"] = self.context["request"].user.id
+    # def validate(self, attrs):
+    #     if len(attrs) != len(self.context["request"].data):
+    #         raise serializers.ValidationError("You must provide all fields")
+    #     attrs["author_id"] = self.context["request"].user.id
 
-        return attrs
+    #     return attrs
     
 
 class CustomTokenSerializer(serializers.Serializer):
