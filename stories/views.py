@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from .models import Category, Recipe, Story
 from .forms import CreateRecipeForm
+from .tasks import export
 # Create your views here.
 
 def recipes(request):
@@ -90,3 +91,7 @@ def get_recipe(request, id):
     print(type(id)) 
 
     return render(request, "single.html")
+
+def eexport(request):
+    export.delay(5)
+    return HttpResponse("<h1>Successfully exported</h1>")
