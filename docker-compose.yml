@@ -3,7 +3,9 @@ version: '3.1'
 services:
 
   db:
-    image: postgres
+    image: postgres:latest
+    env_file:
+        - .env
     restart: always
     ports: 
       - 5432:5432
@@ -21,11 +23,38 @@ services:
       - 8080:8080
 
   redis:
+    env_file:
+      - .env
     image: redis
     restart: always
     ports:
       - 6379:6379
 
-volumes:
-  postgres_data:
+  celery:
+      build:
+        context: .
+        dockerfile: celery.dockerfile
+      container_name: celery
+      command: celery -A food beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+      env_file:
+        - .env
+      depends_on:
+        - redis
+        - web
+        - db
+
+  web:
+    build: .
+    depends_on:
+      - db
+      - redis
+    env_file:
+        - .env
+    # command: python manage.py runserver 0.0.0.0
+
+    ports:
+      - 8000:8000
+      
+# volumes:
+#   postgres_data:
 

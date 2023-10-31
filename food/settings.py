@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8=al&b!=dpe3ec1xds_y4v^e2f*fqkzsg_!evqc01_=^c*^9u%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get("PROD") else True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -110,10 +110,10 @@ SOCIAL_AUTH_PIPELINE = (
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gpt_db',
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': 'localhost',
+        'NAME': os.environ.get("POSTGRES_DB", "gpt"),
+        'USER': os.environ.get("POSTGRES_USER", "postgres"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        'HOST': os.environ.get("POSTGRES_HOST", "db"),
         'PORT': '5432'
     }
 }
