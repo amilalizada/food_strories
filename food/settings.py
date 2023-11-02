@@ -27,7 +27,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8=al&b!=dpe3ec1xds_y4v^e2f*fqkzsg_!evqc01_=^c*^9u%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if os.environ.get("PROD") else True
+DEBUG = False
+# DEBUG = False if os.environ.get("PROD") else True
+
+PROD = not DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -107,7 +110,19 @@ SOCIAL_AUTH_PIPELINE = (
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
+if not PROD:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': "gpt_db",
+            'USER': "root",
+            'PASSWORD': 12345,
+            'HOST': "localhost",
+            'PORT': '5432'
+        }
+    }
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get("POSTGRES_DB", "gpt"),
@@ -117,6 +132,7 @@ DATABASES = {
         'PORT': '5432'
     }
 }
+
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
@@ -187,7 +203,12 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = reverse_lazy("account:profile")
 LOGOUT_REDIRECT_URL = reverse_lazy("account:login")
 
-STATICFILES_DIRS = [BASE_DIR, "static"]
+if DEBUG:
+        STATICFILES_DIRS = [
+            os.path.join(BASE_DIR, 'static')
+       ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 
